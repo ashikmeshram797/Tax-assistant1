@@ -1,0 +1,21 @@
+node_modules/ 
+venv/ 
+.env 
+_pycache_/ 
+*.pdf 
+# Ignore all node_modules folders
+node_modules/
+**/node_modules/
+tax-assistant/node_modules/
+
+# Ignore Python virtual environments
+venv/
+**/venv/
+backend/venv/
+
+# Ignore cache and local files
+_pycache_/
+**/_pycache_/
+.env
+.vscode/
+*.pdf
