@@ -1,3 +1,5 @@
+import eventlet
+eventlet.monkey_patch()
 from email.mime import text
 from fileinput import filename
 
@@ -1182,5 +1184,7 @@ def get_records():
 
     return jsonify(result)
 # 🚀 RUN
-if __name__ == "__main__":
-     socketio.run(app, debug=True)
+if __name__ == '__main__':
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    socketio.run(app, host='0.0.0.0', port=port, debug=True)
