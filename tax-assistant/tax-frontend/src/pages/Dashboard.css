@@ -1,0 +1,138 @@
+/* Dashboard.css */
+
+.dashboard-wrapper {
+  background-color: #f0f2f5; /* फिकट राखाडी बॅकग्राउंड */
+  min-height: 100vh;
+  padding: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dashboard-content {
+  display: flex;
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+/* डावा भाग: Profile Card */
+.profile-section {
+  flex: 1;
+}
+
+.welcome-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-top: 5px solid #003366; /* निळी पट्टी वरच्या बाजूला */
+}
+
+.welcome-card h3 {
+  color: #003366;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.user-detail {
+  margin: 10px 0;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.user-detail strong {
+  color: #222;
+}
+
+.profile-links {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-links a {
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.profile-links a:hover {
+  text-decoration: underline;
+}
+
+/* उजवा भाग: Filing Info */
+.filing-section {
+  flex: 2;
+}
+
+.ay-info-box {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  border-left: 6px solid #ff9933; /* केसरी पट्टी बाजूला */
+}
+
+.ay-info-box h4 {
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.ay-info-box p {
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Accordion/Menu Items */
+.accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.accordion-item {
+  background: #ffffff;
+  padding: 18px 25px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #333;
+}
+
+.accordion-item:hover {
+  background: #f8f9fa;
+  border-color: #003366;
+  transform: translateX(5px);
+}
+
+/* Loading State Style */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  font-size: 1.5rem;
+  color: #003366;
+}
+.itr-list {
+  margin-top: 10px;
+}
+
+.itr-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background: #f9f9f9;
+}

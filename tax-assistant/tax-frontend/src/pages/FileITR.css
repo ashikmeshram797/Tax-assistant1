@@ -1,0 +1,1025 @@
+ /* मुख्य कंटेनर आणि बॅकग्राउंड */
+.itr-container {
+    background-color: #f4f7f9;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* हेडर सेक्शन */
+.itr-header-section {
+    max-width: 1000px;
+    margin: 0 auto 20px;
+}
+
+.itr-header-section h2 {
+    color: #1a3a5f;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.mandatory-fields {
+    color: #d32f2f;
+    font-size: 14px;
+}
+
+/* मुख्य कार्ड स्टाईल */
+.itr-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+/* फॉर्म ग्रुप्स */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.form-group select, 
+.info-item input, 
+.info-item textarea,
+.full-width-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* स्टेप १: पर्सनल इन्फो ग्रिड */
+.info-display-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.info-item.full-width {
+    grid-column: span 2;
+}
+
+.disabled-input {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    font-weight: bold;
+}
+
+/* स्टेटस सिलेक्शन (Individual/HUF) */
+.status-selection-grid {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.status-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border: 1px solid #007bff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.status-option:hover {
+    background-color: #f0f7ff;
+}
+
+/* Filing Section & Tax Regime */
+.section-title {
+    color: #004085;
+    border-left: 5px solid #007bff;
+    padding-left: 10px;
+    margin: 30px 0 15px;
+}
+
+.regime-flex {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.regime-choice {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.regime-choice input[type="radio"] {
+    margin-top: 5px;
+}
+
+.choice-desc strong {
+    color: #1a3a5f;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.choice-desc p {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+}
+
+/* बटन्स */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.back-btn {
+    background: #fff;
+    border: 1px solid #007bff;
+    color: #007bff;
+    padding: 10px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.continue-btn {
+    background: #003366;
+    color: #fff;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.continue-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+/* पॉपअप मोडाल्स */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 500px;
+    text-align: center;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirm-blue {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* डिव्हायडर */
+.divider {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 25px 0;
+}
+
+.add-another-btn {
+    background: none;
+    border: 1px dashed #007bff;
+    color: #007bff;
+    padding: 8px 15px;
+    margin-top: 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.deduction-summary-box {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 6px;
+    margin: 20px 0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.summary-row.highlight {
+    color: #1a3a5f;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.total-income-display {
+    background: #e3f2fd;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.final-amount {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0d47a1;
+}
+
+.save-btn {
+    background: #1a3a5f;
+    color: white;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.exempt-row {
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.delete-btn {
+    background: #ffeded;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.delete-btn:hover {
+    background: #d32f2f;
+    color: white;
+}
+
+.add-another-btn {
+    background: #fff;
+    color: #007bff;
+    border: 1px solid #007bff;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 8px 20px;
+    border-radius: 5px;
+}
+.styled-select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 14px;
+}
+/* Main Container */
+.itr-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Header */
+.itr-header-section h2 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.itr-header-section p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Card */
+.itr-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Input Section */
+.info-item {
+  margin-bottom: 18px;
+}
+
+.info-item label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.info-item input,
+.info-item select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+/* Focus Effect */
+.info-item input:focus,
+.info-item select:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+/* Summary Section */
+.summary-section {
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.summary-row span {
+  color: #555;
+}
+
+.summary-row strong {
+  font-weight: 600;
+}
+
+/* Highlight negative */
+.summary-row strong[style*="red"] {
+  color: #e53935 !important;
+}
+
+/* Final Box */
+.total-income-box {
+  margin-top: 15px;
+  background: #f5f8ff;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.total-income-box h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.final-amount {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1a73e8;
+}
+
+/* Combined Total Highlight */
+.total-income-box:last-of-type {
+  background: #e8f5e9;
+}
+
+.total-income-box:last-of-type .final-amount {
+  color: #2e7d32;
+}
+
+/* Buttons */
+.button-group {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-group button {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Back Button */
+.button-group button:first-child {
+  background: #ccc;
+}
+
+/* Save Button */
+.button-group button:last-child {
+  background: #1a73e8;
+  color: white;
+}
+
+/* Hover Effects */
+.button-group button:hover {
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .itr-card {
+    padding: 15px;
+  }
+
+  .summary-row {
+    font-size: 14px;
+  }
+
+  .final-amount {
+    font-size: 18px;
+  }
+}
+/* Step 4: Interest on Borrowed Capital Styles */
+
+/* मुख्य कंटेनर आणि कार्ड */
+.itr-step-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.itr-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* सेक्शन हेडर - निळी पट्टी किंवा डॅश लाईन */
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 16px;
+    color: #1a3a5f;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 20px;
+}
+
+.calculated-total {
+    font-size: 18px;
+    color: #000;
+}
+
+/* माहिती देणारा बॉक्स (Regime Question) */
+.info-display-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.regime-question {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.info-icon {
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+    cursor: help;
+}
+
+/* ब्रेकअप फॉर्म (दुसऱ्या फोटोसाठी) */
+.breakup-form-portal {
+    background-color: #ffffff;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* इनपुट ग्रिड */
+.info-display-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-item label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.info-item input, .info-item select {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.info-item.full-width {
+    grid-column: span 2;
+}
+
+/* हायलाईट केलेला फायनल अमाऊंट बॉक्स */
+.final-income-highlight-box {
+    background-color: #f0f7ff;
+    border-left: 5px solid #0056b3;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    font-weight: bold;
+}
+
+.final-amount {
+    font-size: 20px;
+    color: #000;
+}
+
+/* बटन्स */
+.add-another-btn {
+    background: white;
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.add-another-btn:hover {
+    background: #f0f7ff;
+}
+
+.confirm-blue {
+    background: #0056b3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.confirm-blue:hover {
+    background: #004494;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+}
+
+/* Step 5: Income from Other Sources Styles */
+
+/* मुख्य सेक्शन बॉक्स */
+.itr-card {
+    border: 1px solid #e0e0e0;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 2px; /* पोर्टलवर थोडे शार्प कोपरे असतात */
+    margin-bottom: 20px;
+}
+
+/* हेडर रो जिथे टोटल दिसते */
+.section-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed #bbb;
+    margin-bottom: 20px;
+    color: #1a3a5f;
+    font-weight: 700;
+}
+
+/* ब्रेकअप फॉर्मचा कंटेनर */
+.breakup-form-portal {
+    background-color: #fcfcfc;
+    border: 1px solid #eeeeee;
+    padding: 20px;
+    margin-top: 15px;
+    border-radius: 4px;
+}
+
+/* इनपुट ग्रिड - २ कॉलम्समध्ये */
+.info-display-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+/* लेबल आणि इनपुट स्टाईल */
+.info-item label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.info-item input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: right; /* पोर्टलवर रकमा उजवीकडे असतात */
+    box-sizing: border-box;
+}
+
+.info-item input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+}
+
+/* फुल विड्थ इनपुट (उदा. Any Other Income) */
+.info-item.full-width {
+    grid-column: span 2;
+}
+
+/* फायनल हायलाईट बॉक्स (निळा) */
+.final-income-highlight-box {
+    background-color: #eef6ff;
+    border-left: 5px solid #0052a5;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    font-weight: 700;
+    color: #1a3a5f;
+}
+
+.final-amount {
+    font-size: 22px;
+    color: #000;
+}
+
+/* बटन्स */
+.add-another-btn {
+    background: #fff;
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.add-another-btn:hover {
+    background: #f0f7ff;
+}
+
+.confirm-blue {
+    background: #003d7a;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.confirm-blue:hover {
+    background: #002b55;
+}
+
+/* मार्जिन युटिलिटी */
+.mt-4 {
+    margin-top: 24px;
+}
+
+/* LTCG Section Styling */
+.ltcg-section-portal {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+.sub-section-title {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.highlighted-text {
+    font-weight: bold;
+    color: #1a3a5f;
+    background: #eef6ff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+/* इनपुट बॉक्सची रुंदी आणि अलाईन्मेंट */
+.info-display-grid .info-item input {
+    border: 1px solid #bbb;
+    background: #fff;
+}
+
+
+/* ===== STEP 6 CONTAINER ===== */
+.tax-summary-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+/* ===== HEADER ===== */
+.tax-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.tax-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a3a5f;
+}
+
+.tax-header p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* ===== CARD ===== */
+.tax-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ===== ROW ===== */
+.tax-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.tax-row span {
+  font-size: 15px;
+  color: #444;
+}
+
+.tax-row strong {
+  font-size: 16px;
+  color: #1a3a5f;
+}
+
+/* ===== HIGHLIGHT ROW ===== */
+.tax-row.highlight {
+  background: #f5f9ff;
+  padding: 14px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* ===== DEDUCTION (RED) ===== */
+.tax-row.deduction strong {
+  color: #d9534f;
+}
+
+/* ===== FINAL TAX BOX ===== */
+.final-tax-box {
+  margin-top: 20px;
+  padding: 20px;
+   background: #ffffff;
+  border-radius: 12px;
+  text-align: center;
+  color: #210505;
+}
+
+.final-tax-box h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.final-tax-box .amount {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* ===== BUTTONS ===== */
+.tax-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+}
+
+.tax-buttons button {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Back Button */
+.back-btn {
+  background: #ccc;
+  color: #000;
+}
+
+/* Next Button */
+.next-btn {
+  background: #1a3a5f;
+  color: #fff;
+}
+
+.next-btn:hover {
+  background: #16324d;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .tax-row {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .final-tax-box .amount {
+    font-size: 22px;
+  }
+}
+.deduction-container {
+  margin-top: 20px;
+}
+
+.section-title {
+  margin-bottom: 15px;
+  color: #1a3a5f;
+}
+
+.deduction-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.deduction-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.deduction-item label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.deduction-item input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.deduction-item input:focus {
+  border-color: #0b5ed7;
+  outline: none;
+}
+
+.deduction-total {
+  margin-top: 15px;
+  padding: 12px;
+  background: #f1f7ff;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+.preview-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 10px 0 20px;
+}
+
+.preview-grid div {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 6px;
+}
+.gov-header {
+  text-align: center;
+  border-bottom: 2px solid #000;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.gov-header h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.gov-header p {
+  margin: 2px 0;
+  font-size: 14px;
+}
+
+.gov-header h3 {
+  margin-top: 10px;
+  font-size: 18px;
+  text-decoration: underline;
+}
+.success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.success-card {
+  text-align: center;
+  padding: 30px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #f9fff9;
+}
+
+.success-card h2 {
+  color: green;
+}

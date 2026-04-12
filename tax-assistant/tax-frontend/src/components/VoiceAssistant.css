@@ -1,0 +1,56 @@
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.robot-floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+.listening-pulse {
+  box-shadow: 0 0 20px 5px rgba(59, 130, 246, 0.7);
+  border: 2px solid #3b82f6;
+}
+@keyframes floatRobot {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); } /* थोडा तिरका होईल */
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.robot-floating {
+  animation: floatRobot 3s ease-in-out infinite;
+  filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); /* नैसर्गिक सावली */
+}
+/* बोलताना होणारी हालचाल (Vibration/Pulse) */
+@keyframes robotSpeaking {
+  0% { transform: scale(1) translateY(-15px); }
+  25% { transform: scale(1.05) translateY(-18px) rotate(1deg); }
+  50% { transform: scale(1) translateY(-15px) rotate(-1deg); }
+  75% { transform: scale(1.05) translateY(-18px) rotate(1deg); }
+  100% { transform: scale(1) translateY(-15px); }
+}
+
+.robot-speaking {
+  /* तरंगण्याच्या ऐवजी हे अ‍ॅनिमेशन लागेल */
+  animation: robotSpeaking 0.4s ease-in-out infinite !important;
+  filter: drop-shadow(0 0 20px #3b82f6) contrast(1.1); /* बोलताना उजळ दिसेल */
+}
+
+/* इमेजला थोडा ग्लो देण्यासाठी */
+.speaking-glow {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(59, 130, 246, 0.4);
+  border-radius: 50%;
+  filter: blur(20px);
+  z-index: -1;
+  animation: pulseGlow 1s infinite;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+  100% { transform: scale(0.8); opacity: 0.5; }
+}

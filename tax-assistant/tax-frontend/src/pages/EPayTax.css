@@ -1,0 +1,706 @@
+ /* मुख्य कंटेनर आणि फॉन्ट */
+.epay-container {
+  padding: 10px 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+}
+
+.breadcrumb {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.breadcrumb span {
+  color: #000;
+  font-weight: 500;
+}
+
+.epay-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.epay-description {
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.epay-link a {
+  color: #1e3a8a;
+  text-decoration: underline;
+  font-size: 13px;
+}
+
+.mandatory-label {
+  text-align: right;
+  font-size: 11px;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* फॉर्म कार्ड */
+.epay-form-card {
+  border: 1px solid #e0e0e0;
+  padding: 30px;
+  margin-top: 5px;
+  border-radius: 4px;
+  max-width: 800px;
+}
+
+.form-row {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  font-size: 14px;
+}
+
+/* मोबाईल नंबर विभाग (PAN सारखा लहान बॉक्स) */
+.mobile-section-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.mobile-group-fixed {
+  width: 100%;
+  max-width: 350px; /* हा PAN बॉक्सच्या साईझशी मॅच होईल */
+}
+
+.mobile-input-container {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+  height: 40px;
+}
+
+.flag-icon {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  background: #eee;
+  border-right: 1px solid #ccc;
+  font-size: 13px;
+}
+
+.mobile-input-container input {
+  border: none !important;
+  outline: none;
+  width: 100%;
+  padding: 0 10px;
+  background: transparent;
+}
+
+/* Generate OTP बटण */
+.btn-generate-inline {
+  height: 40px;
+  padding: 0 20px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #888;
+  border-radius: 4px;
+  cursor: not-allowed;
+  font-weight: 500;
+}
+
+.btn-generate-inline.active {
+  background-color: #1e3a8a;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* OTP इनपुट सेक्शन */
+.otp-input-section-final {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.otp-single-box {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.otp-single-box:focus {
+  border-color: #1e3a8a;
+  outline: none;
+  box-shadow: 0 0 5px rgba(30, 58, 138, 0.2);
+}
+
+.otp-timer-inline {
+  font-size: 11px;
+  margin-top: 5px;
+  color: #666;
+}
+
+/* फुटर बटन्स (Continue & Back) */
+.epay-button-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.btn-secondary-custom {
+  background: white;
+  border: 1px solid #333;
+  padding: 10px 30px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-primary-custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ccc;
+  color: #666;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  cursor: not-allowed;
+  min-width: 140px;
+  font-weight: 500;
+}
+
+.btn-primary-custom.active-btn {
+  background: #1e3a8a;
+  color: white;
+  cursor: pointer;
+}
+
+/* यश (Success) आणि इतर स्टाईल्स */
+.success-banner {
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  color: #2e7d32;
+}
+
+.user-info-bar {
+  background-color: #f1f4f9;
+  padding: 12px 20px;
+  border-radius: 4px;
+  display: flex;
+  gap: 30px;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.btn-new-payment {
+  background-color: white;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-new-payment:hover {
+  background-color: #f5f5f5;
+}
+
+/* निळी नोट (Reconcile Note) */
+.reconcile-note {
+  font-size: 13px;
+  color: #006699;
+  background-color: #e3f2fd;
+  padding: 12px;
+  border-radius: 4px;
+  margin: 15px 0;
+  line-height: 1.5;
+}
+
+/* टॅब्स */
+.tabs-row {
+  display: flex;
+  gap: 30px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 5px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: #1e3a8a;
+  font-weight: bold;
+  border-bottom: 3px solid #1e3a8a;
+}
+
+/* टेबल कंट्रोल्स */
+.table-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-table-action {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: #666;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn-table-action.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* डेटा टेबल */
+.epay-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.epay-data-table th {
+  background-color: #f1f1f1;
+  text-align: left;
+  padding: 12px;
+  font-size: 13px;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-size: 14px;
+}
+
+/* पॅजिनेशन */
+.pagination-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  font-size: 13px;
+  color: #666;
+}
+.payment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* एका ओळीत ३ कार्ड्स */
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.payment-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card-content {
+  padding: 20px;
+  min-height: 150px;
+}
+
+.card-content h3 {
+  font-size: 16px;
+  color: #1e3a8a;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.card-content p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.read-more {
+  color: #1e3a8a;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+.card-footer {
+  background-color: #f9fafb;
+  padding: 12px 20px;
+  text-align: right;
+  border-top: 1px solid #eee;
+}
+
+.btn-proceed {
+  background-color: #fff;
+  border: 1px solid #1e3a8a;
+  color: #1e3a8a;
+  padding: 6px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-proceed:hover {
+  background-color: #1e3a8a;
+  color: #fff;
+}
+
+.pan-display-header {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #333;
+}
+/* Stepper Styles */
+.payment-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  padding: 20px;
+}
+
+.step-item {
+  text-align: center;
+  color: #999;
+  flex: 1;
+}
+
+.step-item.active {
+  color: #1e3a8a;
+  font-weight: bold;
+}
+
+.step-num {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ddd;
+  border-radius: 4px; /* चौरस कोपरे इमेज प्रमाणे */
+  line-height: 28px;
+  margin-bottom: 8px;
+}
+
+.step-item.active .step-num {
+  border-color: #1e3a8a;
+  background-color: transparent;
+}
+
+.step-line {
+  height: 1px;
+  background-color: #ddd;
+  flex: 0.5;
+  margin-bottom: 35px;
+}
+
+/* Form Styles */
+.section-title {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.pan-info {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.fy-hint {
+  font-size: 12px;
+  color: #666;
+  background-color: #f0f7ff;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.mandatory-note {
+  text-align: right;
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 10px;
+}
+.breakup-table {
+  border: 1px solid #f0f0f0;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.breakup-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f9f9f9;
+}
+
+.breakup-label {
+  font-size: 14px;
+  color: #333;
+}
+
+.input-with-symbol {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+  width: 150px;
+}
+
+.currency-symbol {
+  padding: 0 10px;
+  color: #666;
+  background: #f5f5f5;
+  border-right: 1px solid #ddd;
+  height: 35px;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-symbol input {
+  border: none;
+  padding: 8px;
+  width: 100%;
+  text-align: right;
+  outline: none;
+}
+
+.total-row-display {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 10px 0;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.words-display {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.right-btns {
+  display: flex;
+  gap: 10px;
+}
+.payment-tabs-header {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #333;
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-btn.active-tab {
+  border-bottom: 2px solid #1e3a8a; /* निळी अंडरलाईन इमेज प्रमाणे */
+  color: #1e3a8a;
+  font-weight: bold;
+}
+
+.bank-selection-area {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.payment-hint {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.banks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* ३ कॉलम्स Image 107421 प्रमाणे */
+  gap: 15px;
+}
+
+.bank-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.bank-logo {
+  width: 25px; /* छोटे लोगोज इमेज प्रमाणे */
+  height: 25px;
+}
+
+.other-bank-option {
+  grid-column: span 3; /* Image 107421 प्रमाणे पूर्ण रुंदी */
+  border: 1px dashed #ccc;
+}
+.bank-name {
+  font-size: 14px;
+  color: #333;
+}
+.preview-section-box {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.details-grid-box {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.box-heading {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.details-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* इमेजप्रमाणे ४ कॉलम्स */
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.detail-item label {
+  font-size: 12px;
+  color: #666;
+  display: block;
+}
+
+.detail-item p {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.breakup-table {
+  width: 100%;
+}
+
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.total-row {
+  font-size: 16px;
+  padding-top: 15px;
+}
+
+.amount-words {
+  font-style: italic;
+  color: #666;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.pay-now-btn {
+  background-color: #1e3a8a !important; /* डार्क ब्लू कलर इमेज प्रमाणे */
+}
+.success-card {
+  text-align: center;
+  padding: 40px;
+}
+
+.check-circle {
+  width: 60px;
+  height: 60px;
+  background-color: #4caf50; /* हिरवा रंग */
+  color: white;
+  border-radius: 50%;
+  font-size: 30px;
+  line-height: 60px;
+  margin: 0 auto 20px;
+}
+
+.success-details-box {
+  background-color: #f1f8e9;
+  border: 1px solid #c8e6c9;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.success-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 5px;
+}
+.otp-input-section-final {
+  width: 350px;        /* 👈 कमी width */
+  max-width: 100%;
+}

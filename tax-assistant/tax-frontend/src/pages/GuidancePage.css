@@ -1,0 +1,24 @@
+.guidance-container{
+padding:30px;
+}
+
+.guidance-container h1{
+margin-bottom:20px;
+}
+
+.guidance-box{
+background:#f8f8f8;
+padding:25px;
+border:1px solid #ddd;
+width:600px;
+}
+
+.guidance-box ul{
+margin-top:15px;
+}
+
+.guidance-box li{
+margin-bottom:8px;
+cursor:pointer;
+color:#1a73e8;
+}

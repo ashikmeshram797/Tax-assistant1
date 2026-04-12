@@ -1,0 +1,87 @@
+.profile-update-container {
+    padding: 40px;
+    background-color: #f0f2f5;
+    min-height: 90vh;
+}
+
+.profile-card {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.profile-header {
+    color: #336699;
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #336699;
+    padding-bottom: 10px;
+}
+
+.profile-section {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.profile-section h3 {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 15px;
+    border-left: 4px solid #336699;
+    padding-left: 10px;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.info-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.info-group input, .info-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+.info-group input:disabled, .info-group textarea:disabled {
+    background-color: #eeeeee;
+    cursor: not-allowed;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.profile-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.edit-btn, .save-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.edit-btn { background-color: #336699; color: white; }
+.save-btn { background-color: #28a745; color: white; }
+
+.edit-btn:hover { background-color: #26507a; }

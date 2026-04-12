@@ -1,0 +1,95 @@
+/* TaxApplicability.css */
+
+.tax-info-container {
+    padding: 40px;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.tax-info-container h1 {
+    color: #336699;
+    border-bottom: 3px solid #336699;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+.tax-section {
+    margin-top: 30px;
+}
+
+.tax-section h2 {
+    color: #d32f2f;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.form-info-box {
+    background: #f8f9fa;
+    padding: 20px;
+    border-left: 5px solid #336699;
+    border-radius: 4px;
+    line-height: 1.6;
+}
+
+/* टॅक्स टेबल स्टाईल्स */
+.tax-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+}
+
+.tax-table th {
+    background-color: #336699;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.tax-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+.tax-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.tax-table tr:hover {
+    background-color: #e9ecef;
+}
+
+/* वजावट (Deductions) सेक्शन */
+.benefit-box {
+    margin-top: 30px;
+    padding: 20px;
+    border: 2px dashed #336699;
+    border-radius: 8px;
+    background-color: #e3f2fd;
+}
+
+.benefit-box h3 {
+    color: #1976d2;
+    margin-top: 0;
+}
+
+.benefit-box ul {
+    padding-left: 20px;
+}
+
+.benefit-box li {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.rebate-note {
+    font-style: italic;
+    color: #666;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}

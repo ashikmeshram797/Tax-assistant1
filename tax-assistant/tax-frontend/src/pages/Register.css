@@ -1,0 +1,147 @@
+ html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto !important; /* हे स्क्रोलिंग सुरू करेल */
+}
+
+.reg-page-container {
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px 5%;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: visible;
+  padding-bottom: 50px;
+}
+
+/* २. फॉर्म कार्डची रुंदी आणि डिझाइन */
+.reg-form-card {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border-top: 5px solid #4a148c;
+  width: 95%;
+  max-width: 1100px;
+  margin-bottom: 50px; /* खालून थोडी जागा */
+}
+
+/* ३. दोन कॉलम लेआउट (Grid) */
+.reg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* एका रांगेत दोन कॉलम */
+  gap: 20px 40px; /* बॉक्समधील अंतर */
+  margin-bottom: 30px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.input-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* ४. OTP सेक्शनचे डिझाइन */
+.otp-container {
+  grid-column: span 1; /* हा सुद्धा एका कॉलममध्ये बसेल */
+}
+
+.otp-input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.otp-boxes {
+  display: flex;
+  gap: 5px;
+}
+
+.otp-box {
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.otp-btn {
+  padding: 8px 15px;
+  background: white;
+  border: 1px solid #4a148c;
+  color: #4a148c;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.otp-btn.purple {
+  background: #4a148c;
+  color: white;
+}
+
+/* ५. ऑथेंटिकेशन बटन्स - पूर्ण रुंदीत */
+.auth-methods {
+  grid-column: span 2; 
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.auth-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.digilocker { background: #7e57c2; }
+.aadhaar { background: #5e35b1; }
+.no-aadhaar { background: #fb8c00; }
+
+.section-title {
+  grid-column: span 2; /* हेडिंग पूर्ण रुंदीत दिसेल */
+  border-left: 5px solid #4a148c;
+  padding-left: 15px;
+  margin: 20px 0;
+  background: #f8f9fa;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.1rem;
+}
+.full-width {
+  grid-column: span 2;
+}
+
+/* ॲड्रेस बॉक्सचे डिझाइन */
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  resize: vertical; /* युजरला बॉक्स मोठा-लहान करता येईल */
+}
+
