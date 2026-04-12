@@ -11,3 +11,5 @@ razorpay
 pytesseract
 Pillow
 psycopg2-binary
+scikit-learn
+pandas
