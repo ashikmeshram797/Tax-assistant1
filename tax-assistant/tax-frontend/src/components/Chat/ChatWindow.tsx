@@ -2,7 +2,7 @@
 import MessageBubble from "./MessageBubble";
 import TypingIndicator from "./TypingIndicator";
 import { FaBars, FaPlus } from "react-icons/fa";
-
+import api from '../../services/api';
 
 export default function ChatWindow() {
   const [message, setMessage] = useState("");
@@ -52,8 +52,8 @@ export default function ChatWindow() {
   // ✅ Fetch Sessions
   const fetchSessions = async () => {
     try {
-      const response = await fetch("http://localhost:5000/get-chat-sessions", { credentials: "include" });
-      const data = await response.json();
+      const response = await api.get("/get-chat-sessions");
+      const data = response.data;
       setSessions(data);
     } catch (err) {
       console.error("Sessions लोड झाले नाहीत.");
@@ -63,8 +63,8 @@ export default function ChatWindow() {
   // ✅ Load History
   const loadChatFromHistory = async (sessionId: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/get-chat-history?sessionId=${sessionId}`, { credentials: "include" });
-      const data = await response.json();
+      const response = await api.get(`/get-chat-history?sessionId=${sessionId}`);
+      const data = response.data;
       setChat(data);
       setCurrentSessionId(sessionId);
       if (window.innerWidth < 768) setSidebarOpen(false);
@@ -108,13 +108,12 @@ export default function ChatWindow() {
     setTyping(true);
 
     try {
-      const response = await fetch("http://localhost:5000/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ message: userMessage.text, source: "chat", sessionId: sessionId })
+      const response = await api.post("/chat", {
+        message: userMessage.text,
+        source: "chat",
+        sessionId: sessionId
       });
-      const data = await response.json();
+      const data = response.data;
       setChat((prev) => [...prev, { sender: "bot", text: "" }]);
       typeText(data.reply);
     } catch (error) {

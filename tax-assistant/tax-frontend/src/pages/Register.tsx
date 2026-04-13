@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
+import api from "../services/api";
 
 function Register() {
   const navigate = useNavigate();
@@ -47,12 +48,10 @@ function Register() {
       return;
     }
     try {
-      const response = await fetch("http://127.0.0.1:5000/send-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: form.email }),
+      const response = await api.post("/send-otp", {
+        email: form.email
       });
-      if (response.ok) {
+      if (response.status === 200) {
         alert("Email OTP यशस्वीरित्या पाठवला आहे!");
       } else {
         alert("OTP पाठवताना अडचण आली!");
@@ -69,15 +68,12 @@ function Register() {
   }
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/send-mobile-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ mobile: form.mobile }),
+    const response = await api.post("/send-mobile-otp", {
+      mobile: form.mobile
     });
+    
 
-    if (response.ok) {
+    if (response.status === 200) {
       alert("Mobile OTP पाठवला!");
     } else {
       alert("OTP पाठवताना error!");
@@ -96,20 +92,14 @@ const verifyMobileOTP = async () => {
   }
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/verify-mobile-otp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        mobile: form.mobile,
-        otp: otp,
-      }),
+    const response = await api.post("/verify-mobile-otp", {
+      mobile: form.mobile,
+      otp: otp
     });
 
-     await response.json();
+    
 
-    if (response.ok) {
+    if (response.status === 200) {
       alert("Mobile Verified ✅");
       setIsMobileVerified(true);   // 👈 important
     } else {
@@ -138,12 +128,8 @@ const verifyMobileOTP = async () => {
     
     // Register data send to backend
     try {
-      const response = await fetch("http://127.0.0.1:5000/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (response.ok) {
+      const response = await api.post("/register", form);
+      if (response.status === 200 || response.status === 201) {
         alert("Account Created Successfully!");
         navigate("/"); 
       }

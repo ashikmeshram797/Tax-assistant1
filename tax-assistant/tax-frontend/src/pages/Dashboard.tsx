@@ -1,7 +1,8 @@
  import { useEffect, useState } from 'react';
-import axios from 'axios';
+
 import { Link } from "react-router-dom";
 import './Dashboard.css'; // खाली दिलेली CSS फाईल इम्पोर्ट करा
+import api from '../services/api';
 
 const Dashboard = () => {
 const [userData, setUserData] = useState<any>(null);
@@ -13,27 +14,16 @@ const [itrList, setItrList] = useState<any[]>([]);
   const fetchData = async () => {
     try {
       // 🔹 USER PROFILE FETCH
-      const userRes = await axios.get(
-        'http://localhost:5000/api/user-profile',
-        {
-          withCredentials: true,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+      const userRes = await api.get('/api/user-profile');
+        
+    
 
       console.log("User Data:", userRes.data);
       setUserData(userRes.data);
 
       // 🔹 ITR LIST FETCH (NEW)
-      const itrRes = await axios.get(
-        'http://localhost:5000/get-itr-list',
-        {
-          withCredentials: true
-        }
-      );
+      const itrRes = await api.get('/get-itr-list');
+    
 
       console.log("ITR List:", itrRes.data);
       setItrList(itrRes.data);

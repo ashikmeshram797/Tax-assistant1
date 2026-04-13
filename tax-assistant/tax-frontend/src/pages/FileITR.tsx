@@ -5,6 +5,7 @@ import autoTable from "jspdf-autotable";
 import axios from "axios"
 import './FileITR.css';
 import { useVoice } from "../context/VoiceContext";
+import api from '../services/api';
 
  
 
@@ -332,9 +333,14 @@ const saveStep5 = () => {
   formData.append("doc_type", selectedDocType);
 
   try {
-    const res = await axios.post<AIData>(
-      "http://localhost:5000/upload-doc",
-      formData
+    const res = await api.post<AIData>(
+      "/upload-doc",
+      formData,
+      {        headers: {
+          "Content-Type": "multipart/form-data",
+
+        },
+      }
     );
 
     const data: AIData = res.data;
@@ -397,18 +403,11 @@ const handleSubmit = async () => {
   try {
     const { personal, ...filteredData } = itrData;
 
-    const res = await fetch("http://localhost:5000/submit-itr", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "include",
-      body: JSON.stringify(filteredData)
-    });
+    const res = await api.post("/submit-itr", filteredData);
 
-    const data = await res.json();
+    const data = res.data;
 
-    if (res.ok) {
+    if (res.status === 200 || res.status === 201) {
       setAckNo(data.acknowledgement);   // 👈 ACK store
       setStep(8);                       // 👈 new success step
     } else {
@@ -816,14 +815,12 @@ const finalTax = Math.round(taxAfterRebate + cess);
     return;
   }
 
-   fetch("http://localhost:5000/get-user", {
-  credentials: "include"   // 👈 VERY IMPORTANT
-})
-    .then(res => res.json())
-    .then(data => {
-      if (data.error) {
-        console.error(data.error);
-      } else {
+   api.get("/get-user") 
+    // 👈 VERY IMPORTANT
+
+    .then(res => {
+      const data = res.data;
+    
         setUserData({
           name: data.name || "",
           email: data.email || "",
@@ -832,7 +829,7 @@ const finalTax = Math.round(taxAfterRebate + cess);
           mobile: data.mobile || "",
           address: data.address || ""
         });
-      }
+      
     })
     .catch(err => console.error("Fetch error:", err));
 }, []);

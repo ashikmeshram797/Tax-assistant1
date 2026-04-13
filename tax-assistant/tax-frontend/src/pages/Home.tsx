@@ -1,5 +1,6 @@
  import { useState, useEffect } from "react";
 import "./Home.css";
+import api from "../services/api";
 
 type NewsItem = {
   title: string;
@@ -18,16 +19,15 @@ function Home() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/rss")
-      .then((res) => res.json())
-      .then((data) => setNews(data))
+    api.get("/rss")
+      .then((res) => 
+        setNews(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   useEffect(() => {
-  fetch("http://localhost:5000/videos")
-    .then(res => res.json())
-    .then(data => setVideos(data))
+  api.get("/videos")
+    .then(res => setVideos(res.data))
     .catch(err => console.error(err));
 }, []);
 

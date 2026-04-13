@@ -108,7 +108,7 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax',
     SESSION_COOKIE_SECURE=False,
     SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_DOMAIN='localhost'
+    SESSION_COOKIE_DOMAIN=None
 )
 
 active_users = set()
@@ -119,7 +119,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 # 🔐 Session + CORS Config
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_for_local")
 
-CORS(app, supports_credentials=True, origins=["http://localhost:5173"],
+CORS(app, supports_credentials=True, origins=["http://localhost:5173","http://*.vercel.app"],
     allow_headers=["Content-Type","Authorization"])
 
  

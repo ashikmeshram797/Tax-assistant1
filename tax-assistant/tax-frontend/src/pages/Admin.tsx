@@ -1,5 +1,6 @@
  import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import api from "../services/api";
 
 import {
   LineChart,
@@ -25,8 +26,10 @@ type TaxRecord = {
  
 
 // 🔥 socket connection
-const socket = io("http://localhost:5000", {
-  withCredentials: true
+ const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const socket = io(API_BASE_URL, {
+  withCredentials: true,
+  transports: ["websocket", "polling"] // हे टाकल्याने कनेक्शनमध्ये एरर येत नाहीत
 });
 
 export default function Admin() {
@@ -67,10 +70,10 @@ export default function Admin() {
   }, []);
 
   useEffect(() => {
-  fetch("http://localhost:5000/admin/tax-records")
-    .then(res => res.json())
-    .then((data: TaxRecord[]) => setRecords(data));
-}, []);
+    api.get("/admin/tax-records")
+      .then((res) => res.data)
+      .then((data: TaxRecord[]) => setRecords(data));
+  }, []);
 
 
   return (

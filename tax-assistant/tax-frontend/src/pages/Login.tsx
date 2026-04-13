@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import loginImage from "../assets/tax.png";
 import "./Login.css";
 import ReCAPTCHA from "react-google-recaptcha";
+import api from "../services/api";
 
 function Login() {
   const navigate = useNavigate();
@@ -21,23 +22,19 @@ function Login() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // ---
-        credentials: "include", 
-        body: JSON.stringify({
+      const response = await api.post("/login", {
+        
           email: form.email,
           password: form.password,
           captcha: captcha
-        })
-      });
+        });
+      
 
-       const data = await response.json();
+       const data =  response.data;
 
 console.log("Login Success Response:", data);  // 👈 DEBUG
 
-if (response.ok && data.message === "Login Successful") {
+if (response.status === 200 && data.message === "Login Successful") {
   console.log("Navigating to dashboard...");  // 👈 add this also
 
   const userRole = data.role ? data.role.toLowerCase() : "user";

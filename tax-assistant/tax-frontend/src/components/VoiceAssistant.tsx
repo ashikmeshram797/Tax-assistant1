@@ -4,6 +4,8 @@ import { FaMicrophone } from "react-icons/fa";
 import "./VoiceAssistant.css";
 import robotLogo from "../assets/robot-logo.png";
 import { useVoice } from "../context/VoiceContext";
+import api from "../services/api";
+
 
 export default function VoiceAssistant() {
   const [isListening, setIsListening] = useState(false);
@@ -190,13 +192,11 @@ hasSpoken = true;
 
       if (command.length < 3) return;
       try {
-        const res = await fetch("http://localhost:5000/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ message: command, source: "voice" }),
+        const res = await api.post("/chat", {
+          
+           message: command, source: "voice" 
         });
-        const data = await res.json();
+        const data = res.data;
         speak(data.reply || "Sorry, I did not understand");
       } catch (error) {
         console.error("API Error:", error);

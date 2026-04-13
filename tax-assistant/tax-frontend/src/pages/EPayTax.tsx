@@ -1,5 +1,6 @@
  import  { useState,useEffect } from 'react';
 import './EPayTax.css';
+import api from '../services/api';
 
 const EPayTax = () => {
   const [selectedPaymentTab, setSelectedPaymentTab] = useState('Net Banking');
@@ -45,18 +46,17 @@ const [formData, setFormData] = useState({
   }
 
   console.log("Downloading PDF for ID:", paymentId);
+  const baseURL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  window.location.href = `http://localhost:5000/api/download-receipt?paymentId=${paymentId}`;
+  window.location.href = `${baseURL}/api/download-receipt?paymentId=${paymentId}`;
 };
 
 // 🚀 नवीन: युझर प्रोफाइल (नाव आणि ईमेल) 
 useEffect(() => {
   const fetchProfile = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/user-profile', { 
-        credentials: 'include' 
-      });
-      const data = await res.json();
+      const res = await api.get('/api/user-profile');
+      const data =  res.data;
       
       console.log("Profile Data:", data);
 
@@ -77,10 +77,8 @@ useEffect(() => {
 useEffect(() => {
   const loadData = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/get-user-data', {
-        credentials: 'include'
-      });
-      const data = await res.json();
+      const res = await api.get('/api/get-user-data');
+      const data =  res.data;
       
       if (data.history) setPaymentHistory(data.history);
       if (data.draft) {
@@ -109,19 +107,15 @@ useEffect(() => {
   const delayDebounceFn = setTimeout(() => {
     const saveDraft = async () => {
       try {
-        await fetch('http://localhost:5000/api/save-draft', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            formData: {
-              ...formData,
+        await api.post('/api/save-draft', {
+          formData: {
+            ...formData,
               taxDetails,
               totalAmount,
               mobile: mobileNumber
             }
           }),
-          credentials: 'include' // 
-        });
+          
         console.log("Draft Auto-saved!");
       } catch (err) {
         console.error("Draft error:", err);
@@ -152,20 +146,17 @@ useEffect(() => {
     },
       handler: async function (response: any) {
   try {
-    const res = await fetch('http://localhost:5000/api/save-payment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+    const res = await api.post('/api/save-payment', {
+    
         ay: formData.assessmentYear,
         pan:formData.pan,
         amount: totalAmount,
         status: "Success",
         paymentId: response.razorpay_payment_id
-      }),
-      credentials: 'include'
+    
     });
 
-    if (res.ok) {
+    if (res.status === 200 || res.status === 201) {
       console.log("Payment History Saved to DB!");
     }
   } catch (err) {
@@ -222,13 +213,11 @@ const numberToWords = (num: number) => {
 };
 
 const sendOTP = async () => {
-  const response = await fetch("http://127.0.0.1:5000/send-mobile-otp", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ mobile: mobileNumber }),
+  const response = await api.post("/send-mobile-otp", {
+    mobile: mobileNumber
   });
 
-  if (response.ok) {
+  if (response.status === 200) {
     setShowOtpField(true);
     setTimer(60);
     setCanResend(false);
@@ -251,13 +240,12 @@ const startTimer = () => {
 const verifyOTP = async () => {
   const otp = otpValues.join("");
 
-  const response = await fetch("http://127.0.0.1:5000/verify-mobile-otp", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ mobile: mobileNumber, otp }),
+  const response = await api.post("/verify-mobile-otp", {
+    mobile: mobileNumber,
+    otp
   });
 
-  if (response.ok) {
+  if (response.status === 200) {
     setIsVerified(true);
   } else {
     alert("Invalid OTP");

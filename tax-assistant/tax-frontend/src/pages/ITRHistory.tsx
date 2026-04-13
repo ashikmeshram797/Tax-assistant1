@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ITRHistory.css"
+import api from "../services/api";
 
 const ITRHistory = () => {
   const [itrList, setItrList] = useState<any[]>([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/get-itr-list", {
-      withCredentials: true
+    api.get("/get-itr-list")
+    .then(res =>{ setItrList(res.data);
     })
-    .then(res => setItrList(res.data))
-    .catch(err => console.error(err));
+    .catch(err => {console.error(err);});
   }, []);
 
   return (
