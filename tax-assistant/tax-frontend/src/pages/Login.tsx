@@ -40,6 +40,7 @@ if (response.status === 200 && data.message === "Login Successful") {
   const userRole = data.role ? data.role.toLowerCase() : "user";
   localStorage.setItem("userRole", userRole);
   localStorage.setItem("isAuth","true");
+  localStorage.setItem("email", data.email); 
 
   navigate("/dashboard", { state: { role: userRole } }); 
 } else {
