@@ -119,7 +119,13 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 # 🔐 Session + CORS Config
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_for_local")
 
-CORS(app, resources={r"/": {"origins": ""}}, supports_credentials=True)
+CORS(app, resources={
+    r"/*": {
+        "origins": ["https://tax-assistant1.vercel.app", "http://localhost:5173"],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+}, supports_credentials=True)
  
 
 # 🔐 reCAPTCHA Secret Key
@@ -392,8 +398,10 @@ def get_chat_sessions():
         return jsonify([])
 
 # 📩 Send OTP
-@app.route("/send-otp", methods=["POST"])
+@app.route("/send-otp", methods=["POST", "OPTIONS"])
 def send_otp():
+    if request.method == "OPTIONS":
+        return jsonify({"message": "CORS Preflight OK"}), 200
     data = request.get_json()
     email = data.get('email')
 
