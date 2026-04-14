@@ -6,9 +6,18 @@ import psycopg2
  
 from flask_cors import CORS
 import xml.etree.ElementTree as ET
+import sendgrid
+from sendgrid.helpers.mail import Mail, To, From, Subject, PlainTextContent
+
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import (
+    Mail, Attachment, FileContent, FileName,
+    FileType, Disposition
+)
+import base64
 
 
-from flask_mail import Mail, Message
+
 import random
 from tax_nlp import get_answer
 import requests
@@ -135,15 +144,15 @@ CORS(app, origins=origins_list, supports_credentials=True)
 RECAPTCHA_SECRET = os.getenv("RECAPTCHA_SECRET_KEY")
 
 # 📧 Mail Config
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USERNAME'] = 'aitaxassistant1@gmail.com'
-app.config['MAIL_PASSWORD'] = 'enmyuogxrjmdzyjh'
-
-
-mail = Mail(app)
+def send_email(to_email, subject, body):
+    sg = sendgrid.SendGridAPIClient(api_key=os.getenv("SENDGRID_API_KEY"))
+    message = Mail(
+        from_email="aitaxassistant1@gmail.com",
+        to_emails=to_email,
+        subject=subject,
+        plain_text_content=body
+    )
+    sg.send(message)
 
 otp_store = {}
 
@@ -413,13 +422,7 @@ def send_otp():
     otp_store[email] = otp
 
     try:
-        msg = Message(
-            'Your Verification OTP',
-            sender=app.config['MAIL_USERNAME'],
-            recipients=[email]
-        )
-        msg.body = f"Your OTP is: {otp}"
-        mail.send(msg)
+        send_email(email, "Your OTP", f"Your OTP is: {otp}")
 
         return jsonify({"message": "OTP sent successfully"}), 200
 
@@ -691,10 +694,10 @@ def save_payment():
         return jsonify({"error": "Unauthorized"}), 401
 
     data = request.get_json()
-    print("Received Payment Data:", data) # Debug साठी
+    print("Received Payment Data:", data)
 
     try:
-        # --- १. डेटाबेस सेव्ह (तुमचा जुना कोड) ---
+        # --- १. डेटाबेस सेव्ह ---
         conn = get_db_connection()
         cur = conn.cursor()
         query = """
@@ -716,7 +719,6 @@ def save_payment():
         # --- २. PDF बनवा ---
         pdf_filename = f"Tax_Receipt_{data.get('paymentId')}.pdf"
         
-        # खात्री करा की 'pan' डेटा मध्ये आहे
         if 'pan' not in data:
             data['pan'] = "N/A" 
 
@@ -724,33 +726,39 @@ def save_payment():
         print(f"✅ PDF Created: {pdf_filename}")
 
         # --- ३. ईमेल पाठवा ---
-        # ❗ 'app.config' ऐवजी तुमचा ईमेल थेट इथे टाका
         YOUR_EMAIL = "aitaxassistant1@gmail.com" 
 
-        msg = Message(
+        message = Mail(
+            from_email=YOUR_EMAIL,
+            to_emails=user_email,
             subject="तुमची टॅक्स पेमेंट पावती - Tax Assistant",
-            sender=YOUR_EMAIL, 
-            recipients=[user_email]
+            plain_text_content=f"नमस्कार, तुमचे ₹{data.get('amount')} चे पेमेंट यशस्वी झाले आहे."
         )
-        
-        msg.body = f"नमस्कार, तुमचे ₹{data.get('amount')} चे पेमेंट यशस्वी झाले आहे. पावती सोबत जोडली आहे."
-        
-        # PDF अटॅचमेंट
-        if os.path.exists(pdf_filename):
-            with app.open_resource(pdf_filename) as fp:
-                msg.attach(pdf_filename, "application/pdf", fp.read())
-            
-            mail.send(msg)
-            print("✅ Email Sent successfully!")
-            os.remove(pdf_filename) # फाईल डिलीट करा
-        else:
-            print("❌ PDF file not found, email sent without attachment")
-            mail.send(msg)
 
-        return jsonify({"success": True, "message": "Payment saved and Invoice sent!"}), 200
+        # PDF Attachment
+        if os.path.exists(pdf_filename):
+            with open(pdf_filename, "rb") as f:
+                pdf_data = base64.b64encode(f.read()).decode()
+
+            attachment = Attachment(
+                FileContent(pdf_data),
+                FileName(pdf_filename),
+                FileType("application/pdf"),
+                Disposition("attachment")
+            )
+            message.attachment = attachment
+
+        # --- Send Email ---
+        sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
+        sg.send(message)
+        print("✅ Email Sent successfully!")
+        if os.path.exists(pdf_filename):
+            os.remove(pdf_filename)
+
+        return jsonify({"success": True}), 200
 
     except Exception as e:
-        print("❌ ERROR DETAILS:", str(e)) # टर्मिनलमध्ये नक्की काय एरर आहे ते दिसेल
+        print(f"❌ Error: {e}")
         return jsonify({"error": str(e)}), 500
 
 # 📝 SAVE/UPDATE DRAFT (Auto-save)
