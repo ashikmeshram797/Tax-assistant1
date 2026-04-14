@@ -126,17 +126,10 @@ origins_list = [
     "https://tax-assistant1.vercel.app", 
     "http://localhost:5173", 
     "http://localhost:3000",
-    "http://127.0.0.1:5173"
+    
 ]
 
-CORS(app, resources={
-    r"/*": {
-        "origins": origins_list,
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"],
-        "supports_credentials": True
-    }
-})
+CORS(app, origins=origins_list, supports_credentials=True)
  
 
 # 🔐 reCAPTCHA Secret Key
@@ -409,30 +402,8 @@ def get_chat_sessions():
         return jsonify([])
 
 # 📩 Send OTP
-@app.route("/send-otp", methods=["POST", "OPTIONS"])
+@app.route("/send-otp", methods=["POST"])
 def send_otp():
-    # १. कोणती वेबसाईट रिक्वेस्ट पाठवतेय ते ओळखा (Vercel की Localhost)
-    origin = request.headers.get('Origin')
-    
-    # ज्या वेबसाईटला परवानगी द्यायची आहे त्यांची लिस्ट
-    allowed_origins = [
-        "https://tax-assistant1.vercel.app", 
-        "http://localhost:5173", 
-        "http://localhost:3000"
-    ]
-
-    if request.method == "OPTIONS":
-        response = jsonify({"message": "CORS Preflight OK"})
-        # जर रिक्वेस्ट देणारी वेबसाईट लिस्टमध्ये असेल तरच परवानगी द्या
-        if origin in allowed_origins:
-            response.headers.add("Access-Control-Allow-Origin", origin)
-        
-        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
-        response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
-        response.headers.add("Access-Control-Allow-Credentials", "true") # तुला क्रेडेंशियल्स हवे आहेत म्हणून
-        return response, 200
-
-    # २. मूळ POST विनंती प्रोसेस करणे
     data = request.get_json()
     email = data.get('email')
 
@@ -451,20 +422,11 @@ def send_otp():
         msg.body = f"Your OTP is: {otp}"
         mail.send(msg)
 
-        res = jsonify({"message": "OTP sent successfully"})
-        # रिस्पॉन्समध्ये सुद्धा हेडर्स जोडणे अनिवार्य आहे
-        if origin in allowed_origins:
-            res.headers.add("Access-Control-Allow-Origin", origin)
-        res.headers.add("Access-Control-Allow-Credentials", "true")
-        return res, 200
+        return jsonify({"message": "OTP sent successfully"}), 200
 
     except Exception as e:
-        print(f"Error: {e}")
-        res = jsonify({"message": "Mail sending failed", "error": str(e)})
-        if origin in allowed_origins:
-            res.headers.add("Access-Control-Allow-Origin", origin)
-        res.headers.add("Access-Control-Allow-Credentials", "true")
-        return res, 500
+        print("ERROR:", str(e))
+        return jsonify({"message": "Mail failed", "error": str(e)}), 500
     
 # 🔐 Verify OTP Email
 @app.route("/verify-otp", methods=["POST"])
