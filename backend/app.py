@@ -119,13 +119,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 # 🔐 Session + CORS Config
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_for_local")
 
-CORS(app, resources={
-    r"/*": {
-        "origins": ["https://tax-assistant1.vercel.app", "http://localhost:5173"],
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization"]
-    }
-}, supports_credentials=True)
+CORS(app, resources={r"/": {"origins": ""}}, supports_credentials=True)
  
 
 # 🔐 reCAPTCHA Secret Key
@@ -400,8 +394,15 @@ def get_chat_sessions():
 # 📩 Send OTP
 @app.route("/send-otp", methods=["POST", "OPTIONS"])
 def send_otp():
+    # १. OPTIONS (Preflight) विनंतीसाठी मॅन्युअल हँडलिंग
     if request.method == "OPTIONS":
-        return jsonify({"message": "CORS Preflight OK"}), 200
+        response = jsonify({"message": "CORS Preflight OK"})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+        return response, 200
+
+    # २. मूळ POST विनंती प्रोसेस करणे
     data = request.get_json()
     email = data.get('email')
 
@@ -420,11 +421,17 @@ def send_otp():
         msg.body = f"Your OTP is: {otp}"
         mail.send(msg)
 
-        return jsonify({"message": "OTP sent successfully"}), 200
+        # यश मिळाल्यावर हेडर्ससह रिस्पॉन्स पाठवा
+        res = jsonify({"message": "OTP sent successfully"})
+        res.headers.add("Access-Control-Allow-Origin", "*")
+        return res, 200
 
-    except Exception:
-        return jsonify({"message": "Mail sending failed"}), 500
-
+    except Exception as e:
+        print(f"Error: {e}")
+        # एरर आल्यावर सुद्धा हेडर्स जोडा जेणेकरून ब्राउझर तो मेसेज ब्लॉक करणार नाही
+        res = jsonify({"message": "Mail sending failed", "error": str(e)})
+        res.headers.add("Access-Control-Allow-Origin", "*")
+        return res, 500
 # 🔐 Verify OTP Email
 @app.route("/verify-otp", methods=["POST"])
 def verify_otp():
