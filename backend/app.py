@@ -46,7 +46,10 @@ razorpay_client = razorpay.Client(auth=(os.getenv("RAZORPAY_KEY_ID"), os.getenv(
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Windows madhe Tesseract cha path
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+if os.name == 'posix':
+    pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
+else:
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 def preprocess_image(pil_img):
     img = np.array(pil_img)
