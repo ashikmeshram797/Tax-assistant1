@@ -119,9 +119,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 # 🔐 Session + CORS Config
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_for_local")
 
-CORS(app, supports_credentials=True, origins=["http://localhost:5173","https://tax-assistant1.vercel.app"],
-    allow_headers=["Content-Type","Authorization"])
-
+CORS(app, resources={r"/": {"origins": ""}}, supports_credentials=True)
  
 
 # 🔐 reCAPTCHA Secret Key
@@ -129,8 +127,9 @@ RECAPTCHA_SECRET = os.getenv("RECAPTCHA_SECRET_KEY")
 
 # 📧 Mail Config
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'aitaxassistant1@gmail.com'
 app.config['MAIL_PASSWORD'] = 'enmyuogxrjmdzyjh'
 
