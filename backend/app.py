@@ -1,5 +1,4 @@
-import eventlet
-eventlet.monkey_patch()
+
 from email.mime import text
 from fileinput import filename
 
@@ -117,7 +116,7 @@ app.config.update(
 active_users = set()
 user_sessions = {}
 
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
 # 🔐 Session + CORS Config
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_for_local")
@@ -1197,4 +1196,4 @@ def get_records():
 if __name__ == '__main__':
     import os
     port = int(os.environ.get('PORT', 5000))
-    socketio.run(app, host='0.0.0.0', port=port, debug=True)
+    socketio.run(app, host='0.0.0.0', port=port, debug=False)
