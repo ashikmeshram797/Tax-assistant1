@@ -761,7 +761,7 @@ def save_payment():
         print(f"❌ Error: {e}")
         return jsonify({"error": str(e)}), 500
 
-# 📝 SAVE/UPDATE DRAFT (Auto-save)
+# 📝 SAVE/UPDATE DRAFT (Auto-save) payment
 @app.route('/api/save-draft', methods=['POST'])
 def save_draft():
     user_email = session.get('user_email')

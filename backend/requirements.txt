@@ -15,5 +15,5 @@ scikit-learn
 pandas
 pdf2image
 pdfplumber
-opencv-python-
+opencv-python-headless
 sendgrid
