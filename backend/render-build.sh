@@ -4,7 +4,7 @@
 set -o errexit
 
 # Install Tesseract OCR
-apt-get install -y tesseract-ocr
+pip install -y tesseract-ocr || true
 
 # Install Python packages
 pip install -r requirements.txt

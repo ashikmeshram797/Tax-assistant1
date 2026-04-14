@@ -17,3 +17,4 @@ pdf2image
 pdfplumber
 opencv-python-headless
 sendgrid
+tesserocr
