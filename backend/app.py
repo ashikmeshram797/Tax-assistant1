@@ -476,7 +476,7 @@ def send_mobile_otp():
     except Exception as e:
         return jsonify({"message": "SMS failed", "error": str(e)}), 500
 
-@app.route("/verify-mobile-otp", methods=["POST"])
+@app.route("/verify-mobile-otp", methods=["POST"])  #number otps endpoint
 def verify_mobile_otp():
     data = request.get_json()
     mobile = data.get("mobile")
