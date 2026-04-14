@@ -119,7 +119,7 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 # 🔐 Session + CORS Config
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "default_secret_for_local")
 
-CORS(app, supports_credentials=True, origins=["http://localhost:5173","http://*.vercel.app"],
+CORS(app, supports_credentials=True, origins=["http://localhost:5173","https://tax-assistant1.vercel.app"],
     allow_headers=["Content-Type","Authorization"])
 
  
