@@ -960,7 +960,6 @@ def upload_doc():
                 for page in pdf.pages:
                     text += page.extract_text() or ""
 
-            # 🔥 OCR fallback (tesseract naste tri skip)
             if not text.strip():
                 print("⚠️ pdfplumber failed → using OCR")
                 try:
@@ -990,26 +989,18 @@ def upload_doc():
 
         # 🤖 PROMPT
         prompt = f"""
-You are an expert Tax Assistant. Your task is to extract data from the provided Form 16 text for ITR-1 filing.
+You are an expert Tax Assistant. Extract data from Form 16 for ITR-1 filing.
 
 INSTRUCTIONS:
-1. Extract ALL numerical values accurately. 
-2. If "Deductions under Chapter VI-A" is found, map it carefully:
-   - Identify "Section 80C" (PF, LIC, PPF) and put it in "section80c".
-   - Identify "Section 80D" (Health Insurance) and put it in "section80d".
-   - Identify "Section 80TTA" (Interest on savings bank) and put it in "section80tta".
-3. If only a total deduction is shown (e.g., 1,85,000) without a split:
-   - Assume up to 1,50,000 is for "section80c" and the rest for "section80d".
-4. If "Interest" or "Other Income" is found, map it to "savingsInterest".
-5. Return ONLY a valid JSON object. No conversational text, no markdown code blocks (```json).
-6. Use 0 if a value is not found.
-Analyze the Form 16 / Document and extract House Property details.
-
-SPECIAL INSTRUCTIONS:
-1. Look for "Gross Rent received" or "Annual Value" and put it in "grossRent".
-2. Look for "Municipal Taxes paid" and put it in "municipalTax".
-3. If rent is found, set "propertyType" to "letout", else "self".
-4. Extract "Interest on Housing Loan" into the "interest" field.
+1. Extract ALL numerical values accurately.
+2. If "Deductions under Chapter VI-A" found, map carefully:
+   - Section 80C → section80c
+   - Section 80D → section80d
+   - Section 80TTA → section80tta
+3. If only total deduction shown (e.g. 1,85,000): assume 1,50,000 for section80c, rest for section80d.
+4. Interest or Other Income → savingsInterest
+5. Return ONLY valid JSON. No markdown, no backticks, no extra text.
+6. Use 0 if value not found.
 
 JSON SCHEMA:
 {{
@@ -1028,11 +1019,6 @@ JSON SCHEMA:
   "section80c": number,
   "section80d": number,
   "section80tta": number
-   "salary": number,
-  "propertyType": "self" or "letout",
-  "grossRent": number,
-  "municipalTax": number,
-  "interest": number,
 }}
 
 TEXT:
@@ -1043,7 +1029,6 @@ TEXT:
         model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content(prompt)
         ai_text = response.text
-
         print("RAW AI:", ai_text)
 
         # 🔥 PARSE JSON
@@ -1051,17 +1036,14 @@ TEXT:
         try:
             if ai_text:
                 ai_text = ai_text.strip()
-
-                if ai_text.startswith("```"):
-                    ai_text = "\n".join(ai_text.split("\n")[1:])
-                if ai_text.endswith("```"):
-                    ai_text = "\n".join(ai_text.split("\n")[:-1])
-
+                ai_text = re.sub(r'json\s*', '', ai_text)
+                ai_text = re.sub(r'\s*', '', ai_text)
                 ai_text = ai_text.strip()
                 data = json.loads(ai_text)
-
+                print("✅ Gemini JSON parsed:", data)
         except Exception as e:
             print("JSON ERROR:", e)
+            print("RAW TEXT WAS:", ai_text)
             data = {}
 
         # 🔥 REGEX (ALWAYS RUN)
@@ -1071,7 +1053,6 @@ TEXT:
         for key in regex_data:
             if key not in data or data[key] == 0:
                 data[key] = regex_data[key]
-                 
 
         # ✅ DEFAULT DATA
         default_data = {
@@ -1092,18 +1073,16 @@ TEXT:
             "section80tta": 0
         }
 
-         # ✅ DEFAULT DATA
         for key in default_data:
             if key not in data or data[key] is None:
                 data[key] = default_data[key]
 
-# ✅ IMPORTANT: loop संपल्यावरच calculate कर
         data["otherIncome"] = (
-    (data.get("savingsInterest") or 0) +
-    (data.get("fdInterest") or 0) +
-    (data.get("refundInterest") or 0) +
-    (data.get("familyPension") or 0)
-)
+            (data.get("savingsInterest") or 0) +
+            (data.get("fdInterest") or 0) +
+            (data.get("refundInterest") or 0) +
+            (data.get("familyPension") or 0)
+        )
 
         print("FINAL JSON:", data)
         return jsonify(data)
