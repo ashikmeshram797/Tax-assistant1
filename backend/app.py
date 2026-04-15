@@ -956,26 +956,31 @@ def upload_doc():
 
         # 📄 PDF → text + OCR fallback
         if filename.endswith(".pdf"):
-            import pdfplumber
-            from pdf2image import convert_from_bytes
-
             with pdfplumber.open(BytesIO(file_bytes)) as pdf:
                 for page in pdf.pages:
                     text += page.extract_text() or ""
 
-            # 🔥 अगर text empty → OCR fallback
+            # 🔥 OCR fallback (tesseract naste tri skip)
             if not text.strip():
                 print("⚠️ pdfplumber failed → using OCR")
-
-                images = convert_from_bytes(file_bytes, dpi=300)
-                for img in images:
-                    processed = preprocess_image(img)
-                    text += pytesseract.image_to_string(processed, config='--psm 6')
+                try:
+                    from pdf2image import convert_from_bytes
+                    images = convert_from_bytes(file_bytes, dpi=300)
+                    for img in images:
+                        processed = preprocess_image(img)
+                        text += pytesseract.image_to_string(processed, config='--psm 6')
+                except Exception as ocr_err:
+                    print(f"⚠️ OCR skipped: {ocr_err}")
+                    text = ""
 
         # 🖼 IMAGE → OCR
         elif filename.endswith((".png", ".jpg", ".jpeg")):
-            image = Image.open(BytesIO(file_bytes))
-            text =  pytesseract.image_to_string(image, config='--oem 3 --psm 6')
+            try:
+                image = Image.open(BytesIO(file_bytes))
+                text = pytesseract.image_to_string(image, config='--oem 3 --psm 6')
+            except Exception as ocr_err:
+                print(f"⚠️ Image OCR skipped: {ocr_err}")
+                text = ""
         else:
             return jsonify({"error": "Unsupported file type"}), 400
 
