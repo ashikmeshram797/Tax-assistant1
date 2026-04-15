@@ -954,7 +954,7 @@ def upload_doc():
         text = ""
         filename = file.filename.lower()
 
-        # ✅ DEFAULT DATA (top la define kar)
+        # ✅ DEFAULT DATA
         default_data = {
             "salary": 0, "perquisites": 0, "profits": 0,
             "exemptAllowances": 0, "propertyType": "self",
@@ -963,6 +963,19 @@ def upload_doc():
             "refundInterest": 0, "familyPension": 0,
             "section80c": 0, "section80d": 0, "section80tta": 0
         }
+
+        # 🔥 JSON parse helper function
+        def parse_json(ai_text):
+            try:
+                ai_text = ai_text.strip()
+                # ✅ { } madhal JSON directly kadhun ghya
+                match = re.search(r'\{.*\}', ai_text, re.DOTALL)
+                if match:
+                    ai_text = match.group(0)
+                return json.loads(ai_text)
+            except Exception as e:
+                print("JSON PARSE ERROR:", e)
+                return {}
 
         # 🤖 PROMPT
         prompt = """
@@ -1008,7 +1021,7 @@ JSON SCHEMA:
                 for page in pdf.pages:
                     text += page.extract_text() or ""
 
-            # 🔥 Text empty → Gemini Vision (direct PDF)
+            # 🔥 Text empty → Gemini Vision
             if not text.strip():
                 print("⚠️ pdfplumber failed → Gemini Vision")
                 import base64
@@ -1026,15 +1039,8 @@ JSON SCHEMA:
                 ai_text = vision_response.text
                 print("RAW AI (Vision):", ai_text)
 
-                try:
-                    ai_text = ai_text.strip()
-                    ai_text = re.sub(r'json\s*', '', ai_text)
-                    ai_text = re.sub(r'\s*', '', ai_text)
-                    data = json.loads(ai_text.strip())
-                    print("✅ Vision JSON:", data)
-                except Exception as e:
-                    print("Vision JSON ERROR:", e)
-                    data = {}
+                data = parse_json(ai_text)
+                print("✅ Vision JSON:", data)
 
                 for key in default_data:
                     if key not in data or data[key] is None:
@@ -1069,17 +1075,8 @@ JSON SCHEMA:
         ai_text = response.text
         print("RAW AI:", ai_text)
 
-        # 🔥 PARSE JSON
-        try:
-            if ai_text:
-                ai_text = ai_text.strip()
-                ai_text = re.sub(r'json\s*', '', ai_text)
-                ai_text = re.sub(r'\s*', '', ai_text)
-                data = json.loads(ai_text.strip())
-                print("✅ Gemini JSON parsed:", data)
-        except Exception as e:
-            print("JSON ERROR:", e)
-            data = {}
+        data = parse_json(ai_text)
+        print("✅ Gemini JSON parsed:", data)
 
         # 🔥 REGEX
         regex_data = extract_numbers(text)
