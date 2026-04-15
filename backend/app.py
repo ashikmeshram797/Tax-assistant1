@@ -954,23 +954,100 @@ def upload_doc():
         text = ""
         filename = file.filename.lower()
 
-        # 📄 PDF → text + OCR fallback
+        # ✅ DEFAULT DATA (top la define kar)
+        default_data = {
+            "salary": 0, "perquisites": 0, "profits": 0,
+            "exemptAllowances": 0, "propertyType": "self",
+            "grossRent": 0, "municipalTax": 0, "interest": 0,
+            "savingsInterest": 0, "fdInterest": 0,
+            "refundInterest": 0, "familyPension": 0,
+            "section80c": 0, "section80d": 0, "section80tta": 0
+        }
+
+        # 🤖 PROMPT
+        prompt = """
+You are an expert Tax Assistant. Extract data from Form 16 for ITR-1 filing.
+
+INSTRUCTIONS:
+1. Extract ALL numerical values accurately.
+2. If "Deductions under Chapter VI-A" found, map carefully:
+   - Section 80C → section80c
+   - Section 80D → section80d
+   - Section 80TTA → section80tta
+3. If only total deduction shown (e.g. 1,85,000): assume 1,50,000 for section80c, rest for section80d.
+4. Interest or Other Income → savingsInterest
+5. Return ONLY valid JSON. No markdown, no backticks, no extra text.
+6. Use 0 if value not found.
+
+JSON SCHEMA:
+{
+  "salary": number,
+  "perquisites": number,
+  "profits": number,
+  "exemptAllowances": number,
+  "propertyType": "self",
+  "grossRent": number,
+  "municipalTax": number,
+  "interest": number,
+  "savingsInterest": number,
+  "fdInterest": number,
+  "refundInterest": number,
+  "familyPension": number,
+  "section80c": number,
+  "section80d": number,
+  "section80tta": number
+}
+"""
+
+        model = genai.GenerativeModel("gemini-2.5-flash")
+        data = {}
+
+        # 📄 PDF
         if filename.endswith(".pdf"):
             with pdfplumber.open(BytesIO(file_bytes)) as pdf:
                 for page in pdf.pages:
                     text += page.extract_text() or ""
 
+            # 🔥 Text empty → Gemini Vision (direct PDF)
             if not text.strip():
-                print("⚠️ pdfplumber failed → using OCR")
+                print("⚠️ pdfplumber failed → Gemini Vision")
+                import base64
+                pdf_base64 = base64.b64encode(file_bytes).decode('utf-8')
+
+                vision_response = model.generate_content([
+                    {
+                        "inline_data": {
+                            "mime_type": "application/pdf",
+                            "data": pdf_base64
+                        }
+                    },
+                    {"text": prompt}
+                ])
+                ai_text = vision_response.text
+                print("RAW AI (Vision):", ai_text)
+
                 try:
-                    from pdf2image import convert_from_bytes
-                    images = convert_from_bytes(file_bytes, dpi=300)
-                    for img in images:
-                        processed = preprocess_image(img)
-                        text += pytesseract.image_to_string(processed, config='--psm 6')
-                except Exception as ocr_err:
-                    print(f"⚠️ OCR skipped: {ocr_err}")
-                    text = ""
+                    ai_text = ai_text.strip()
+                    ai_text = re.sub(r'json\s*', '', ai_text)
+                    ai_text = re.sub(r'\s*', '', ai_text)
+                    data = json.loads(ai_text.strip())
+                    print("✅ Vision JSON:", data)
+                except Exception as e:
+                    print("Vision JSON ERROR:", e)
+                    data = {}
+
+                for key in default_data:
+                    if key not in data or data[key] is None:
+                        data[key] = default_data[key]
+
+                data["otherIncome"] = (
+                    (data.get("savingsInterest") or 0) +
+                    (data.get("fdInterest") or 0) +
+                    (data.get("refundInterest") or 0) +
+                    (data.get("familyPension") or 0)
+                )
+                print("FINAL JSON:", data)
+                return jsonify(data)
 
         # 🖼 IMAGE → OCR
         elif filename.endswith((".png", ".jpg", ".jpeg")):
@@ -987,92 +1064,31 @@ def upload_doc():
         text = text.replace("\n", " ")
         print("TEXT PREVIEW:", text[:300])
 
-        # 🤖 PROMPT
-        prompt = f"""
-You are an expert Tax Assistant. Extract data from Form 16 for ITR-1 filing.
-
-INSTRUCTIONS:
-1. Extract ALL numerical values accurately.
-2. If "Deductions under Chapter VI-A" found, map carefully:
-   - Section 80C → section80c
-   - Section 80D → section80d
-   - Section 80TTA → section80tta
-3. If only total deduction shown (e.g. 1,85,000): assume 1,50,000 for section80c, rest for section80d.
-4. Interest or Other Income → savingsInterest
-5. Return ONLY valid JSON. No markdown, no backticks, no extra text.
-6. Use 0 if value not found.
-
-JSON SCHEMA:
-{{
-  "salary": number,
-  "perquisites": number,
-  "profits": number,
-  "exemptAllowances": number,
-  "propertyType": "self",
-  "grossRent": number,
-  "municipalTax": number,
-  "interest": number,
-  "savingsInterest": number,
-  "fdInterest": number,
-  "refundInterest": number,
-  "familyPension": number,
-  "section80c": number,
-  "section80d": number,
-  "section80tta": number
-}}
-
-TEXT:
-{text}
-"""
-
-        # 🤖 GEMINI CALL
-        model = genai.GenerativeModel("gemini-2.5-flash")
-        response = model.generate_content(prompt)
+        # 🤖 GEMINI CALL (text-based)
+        response = model.generate_content(prompt + f"\n\nTEXT:\n{text}")
         ai_text = response.text
         print("RAW AI:", ai_text)
 
         # 🔥 PARSE JSON
-        data = {}
         try:
             if ai_text:
                 ai_text = ai_text.strip()
                 ai_text = re.sub(r'json\s*', '', ai_text)
                 ai_text = re.sub(r'\s*', '', ai_text)
-                ai_text = ai_text.strip()
-                data = json.loads(ai_text)
+                data = json.loads(ai_text.strip())
                 print("✅ Gemini JSON parsed:", data)
         except Exception as e:
             print("JSON ERROR:", e)
-            print("RAW TEXT WAS:", ai_text)
             data = {}
 
-        # 🔥 REGEX (ALWAYS RUN)
+        # 🔥 REGEX
         regex_data = extract_numbers(text)
         print("REGEX DATA:", regex_data)
-
         for key in regex_data:
             if key not in data or data[key] == 0:
                 data[key] = regex_data[key]
 
-        # ✅ DEFAULT DATA
-        default_data = {
-            "salary": 0,
-            "perquisites": 0,
-            "profits": 0,
-            "exemptAllowances": 0,
-            "propertyType": "self",
-            "grossRent": 0,
-            "municipalTax": 0,
-            "interest": 0,
-            "savingsInterest": 0,
-            "fdInterest": 0,
-            "refundInterest": 0,
-            "familyPension": 0,
-            "section80c": 0,
-            "section80d": 0,
-            "section80tta": 0
-        }
-
+        # ✅ DEFAULTS
         for key in default_data:
             if key not in data or data[key] is None:
                 data[key] = default_data[key]
